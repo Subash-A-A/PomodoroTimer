@@ -819,7 +819,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TimerText: {fileID: 1200982111}
   TimeSlider: {fileID: 202016816}
-  setTimer: 10
+  setTimer: 2
   startTimer: 0
 --- !u!1 &1200982109
 GameObject:

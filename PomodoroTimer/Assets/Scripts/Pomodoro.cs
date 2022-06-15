@@ -27,8 +27,8 @@ public class Pomodoro : MonoBehaviour
 
     void SetTimerText()
     {
-        float mins = Mathf.Floor(currentTime / 60f);
-        float secs = Mathf.Floor(currentTime % 60f);
+        float mins = Mathf.Clamp(Mathf.Floor(currentTime / 60f), 0, 60f);
+        float secs = Mathf.Clamp(Mathf.Floor(currentTime % 60f), 0, 60f);
         TimerText.text = mins.ToString("00") +":"+ secs.ToString("00");
     }
 
