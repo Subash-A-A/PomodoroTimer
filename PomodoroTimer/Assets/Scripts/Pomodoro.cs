@@ -5,40 +5,77 @@ public class Pomodoro : MonoBehaviour
 {
     [SerializeField] Text TimerText;
     [SerializeField] Image TimeSlider;
-    [SerializeField] float setTimer = 25f;
+    [SerializeField] Image SessionSlider;
+    public float[] SessionTimings;
 
+
+    private float iteration;
+    private float maxLongBreakTime;
     private float currentTime;
     private float maxTimeInMins;
     public bool startTimer = false;
+    public bool isLongBreak = false;
+    private int session;
+
+    private float mins;
+    private float secs;
 
     private void Start()
     {
-        maxTimeInMins = setTimer * 60f;
-        currentTime = setTimer * 60f;
+        session = 0;
+        iteration = 0;
+        maxLongBreakTime = SessionTimings[2] * 60f;
+
         startTimer = false;
-        TimeSlider.fillAmount = currentTime/ maxTimeInMins;
+        maxTimeInMins = SessionTimings[session] * 60f;
+        currentTime = SessionTimings[session] * 60f;
+        TimeSlider.fillAmount = currentTime / maxTimeInMins;
+        SessionSlider.fillAmount = iteration / maxLongBreakTime;
     }
 
     private void Update()
     {
         SetTimerText();
         Timer();
+        SliderLerper();
+
+        if (currentTime <= 0)
+        {
+            ChangeSession();
+        }
+        if (iteration <= 0 && isLongBreak)
+        {
+            ResetSession();
+        }
     }
 
     void SetTimerText()
     {
-        float mins = Mathf.Clamp(Mathf.Floor(currentTime / 60f), 0, 60f);
-        float secs = Mathf.Clamp(Mathf.Floor(currentTime % 60f), 0, 60f);
+
+        if (!isLongBreak)
+        {
+            mins = Mathf.Clamp(Mathf.Floor(currentTime / 60f), 0, 60f);
+            secs = Mathf.Clamp(Mathf.Floor(currentTime % 60f), 0, 60f);
+        }
+        else 
+        {
+            mins = Mathf.Clamp(Mathf.Floor(iteration / 60f), 0, 60f);
+            secs = Mathf.Clamp(Mathf.Floor(iteration % 60f), 0, 60f);
+        }
+        
         TimerText.text = mins.ToString("00") +":"+ secs.ToString("00");
     }
 
     public void Timer()
     {
-        if (startTimer && currentTime > 0)
+        if (startTimer && currentTime > 0 && !isLongBreak)
         {
             currentTime -= 1 * Time.deltaTime;
         }
-        TimeSlider.fillAmount = Mathf.Lerp(TimeSlider.fillAmount, currentTime / maxTimeInMins, 10 * Time.deltaTime);
+        if (isLongBreak && startTimer && iteration > 0)
+        {
+            iteration -= 1 * Time.deltaTime;
+        }
     }
     public void StartTimer()
     {
@@ -49,5 +86,41 @@ public class Pomodoro : MonoBehaviour
     {
         startTimer = false;
     }
+    void ChangeSession()
+    {
+        StopTimer();
+        if(session == 0)
+        {
+            iteration += maxLongBreakTime / 4;
+        }
+        if(iteration == maxLongBreakTime)
+        {
+            Debug.Log("Long Break!");
+            isLongBreak = true;
+        }
+        else
+        {
+            session = (session + 1) % (SessionTimings.Length - 1);
+        }
+        SetSession();
+    }
+    void ResetSession()
+    {
+        startTimer = false;
+        isLongBreak = false;
+        session = 0;
+        iteration = 0;
+        maxLongBreakTime = SessionTimings[2] * 60f;
+    }
+    void SetSession()
+    {
+        currentTime = SessionTimings[session] * 60f;
+        maxTimeInMins = SessionTimings[session] * 60f;
+    }
 
+    void SliderLerper()
+    {
+        TimeSlider.fillAmount = Mathf.Lerp(TimeSlider.fillAmount, currentTime / maxTimeInMins, 10 * Time.deltaTime);
+        SessionSlider.fillAmount = Mathf.Lerp(SessionSlider.fillAmount, iteration / maxLongBreakTime, 10 * Time.deltaTime);
+    }
 }
