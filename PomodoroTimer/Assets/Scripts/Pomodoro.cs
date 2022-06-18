@@ -3,18 +3,23 @@ using UnityEngine.UI;
 
 public class Pomodoro : MonoBehaviour
 {
+    [Header("Timer Sliders")]
     [SerializeField] Text TimerText;
     [SerializeField] Image TimeSlider;
     [SerializeField] Image SessionSlider;
+
+    [Header("SessionTimings")]
     public float[] SessionTimings;
 
+    [Header("Debugging")]
+    [SerializeField] private bool startTimer = false;
+    [SerializeField] private bool isLongBreak = false;
 
     private float iteration;
     private float maxLongBreakTime;
     private float currentTime;
     private float maxTimeInMins;
-    public bool startTimer = false;
-    public bool isLongBreak = false;
+    
     private int session;
 
     private float mins;
@@ -54,13 +59,13 @@ public class Pomodoro : MonoBehaviour
 
         if (!isLongBreak)
         {
-            mins = Mathf.Clamp(Mathf.Floor(currentTime / 60f), 0, 60f);
-            secs = Mathf.Clamp(Mathf.Floor(currentTime % 60f), 0, 60f);
+            mins = Mathf.Clamp(Mathf.Floor(currentTime / 60), 0, 60f);
+            secs = Mathf.Clamp(currentTime % 60, 0, 59f);
         }
         else 
         {
             mins = Mathf.Clamp(Mathf.Floor(iteration / 60f), 0, 60f);
-            secs = Mathf.Clamp(Mathf.Floor(iteration % 60f), 0, 60f);
+            secs = Mathf.Clamp(iteration % 60, 0, 59f);
         }
         
         TimerText.text = mins.ToString("00") +":"+ secs.ToString("00");
@@ -123,4 +128,5 @@ public class Pomodoro : MonoBehaviour
         TimeSlider.fillAmount = Mathf.Lerp(TimeSlider.fillAmount, currentTime / maxTimeInMins, 10 * Time.deltaTime);
         SessionSlider.fillAmount = Mathf.Lerp(SessionSlider.fillAmount, iteration / maxLongBreakTime, 10 * Time.deltaTime);
     }
+
 }
