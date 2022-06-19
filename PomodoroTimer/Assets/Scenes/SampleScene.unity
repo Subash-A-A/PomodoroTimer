@@ -1417,6 +1417,8 @@ MonoBehaviour:
   Task: {fileID: 8028036088502363012, guid: 1a48321bc5084cf4897f9aa050571951, type: 3}
   TaskInput: {fileID: 876428400}
   Content: {fileID: 80372909}
+  MaxTasks: 50
+  TaskNames: []
 --- !u!1 &975468146
 GameObject:
   m_ObjectHideFlags: 0
