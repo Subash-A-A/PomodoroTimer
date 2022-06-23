@@ -22,9 +22,10 @@ public class Task : MonoBehaviour
 
     public void DeleteTask()
     {
-        todoList.Tasks.Remove(taskId);
+        todoList.Tasks.Remove(TaskName.text);
         Debug.Log("Task Removed");
-        Destroy(gameObject);       
+        Destroy(gameObject);
+        todoList.SaveTodoList();
     }
 
     public void CompleteTask()

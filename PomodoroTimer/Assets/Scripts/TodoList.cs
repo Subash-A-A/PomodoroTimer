@@ -8,8 +8,12 @@ public class TodoList : MonoBehaviour
     [SerializeField] InputField TaskInput;
     [SerializeField] Transform Content;
 
-    public List<int> Tasks = new List<int>();
+    public List<string> Tasks;
 
+    private void Start()
+    {   
+        LoadTodoList();
+    }
     public void AddTask()
     {
         string taskText = TaskInput.text;
@@ -23,7 +27,7 @@ public class TodoList : MonoBehaviour
         string taskName = taskText;
         int taskId = taskText.GetHashCode();
 
-        if (Tasks.Contains(taskId))
+        if (Tasks.Contains(taskName))
         {
             Debug.Log("Task is already in Todo List!");
             return;
@@ -32,7 +36,25 @@ public class TodoList : MonoBehaviour
         GameObject task = Instantiate(Task, Content);
         Task currentTask = task.GetComponent<Task>();
         currentTask.SetTask(taskName, taskId);
+        Tasks.Add(taskName);
 
-        Tasks.Add(taskId);
+        SaveTodoList();
+    }
+
+    public void SaveTodoList()
+    {
+        SaveSystem.SaveTodo(this);
+    }
+    public void LoadTodoList()
+    {
+        TodoData data = SaveSystem.LoadTodo();
+        Tasks = data.Tasks;
+
+        foreach(string taskName in Tasks)
+        {
+            GameObject task= Instantiate(Task, Content);
+            Task currentTask = task.GetComponent<Task>();
+            currentTask.SetTask(taskName, taskName.GetHashCode());
+        }
     }
 }
