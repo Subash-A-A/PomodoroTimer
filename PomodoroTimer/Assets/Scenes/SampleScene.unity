@@ -950,6 +950,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 685314087}
+  - component: {fileID: 685314088}
   m_Layer: 0
   m_Name: AudioManager
   m_TagString: Untagged
@@ -971,6 +972,34 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &685314088
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 685314086}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 636e9aedca3c6c94f9a2e3b31b5a1ba2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sounds:
+  - name: TimerStart
+    audioClip: {fileID: 8300000, guid: 37aac6e694e6c6c4e8a709b58b2f8c5c, type: 3}
+    pitch: 1
+    volume: 0.5
+    source: {fileID: 0}
+  - name: TimerPause
+    audioClip: {fileID: 8300000, guid: 51aec0bd5a7d6584a8cf8c9df28116ee, type: 3}
+    pitch: 1
+    volume: 0.5
+    source: {fileID: 0}
+  - name: Complete
+    audioClip: {fileID: 8300000, guid: 137cc5fc62f04c34dbc7bd4795c3b474, type: 3}
+    pitch: 1
+    volume: 1
+    source: {fileID: 0}
 --- !u!1 &876428398
 GameObject:
   m_ObjectHideFlags: 0

@@ -84,17 +84,23 @@ public class Pomodoro : MonoBehaviour
     }
     public void StartTimer()
     {
+        AudioManager manager = FindObjectOfType<AudioManager>();
+        manager.Play("TimerStart");
+
         startTimer = true;
     }
 
     public void StopTimer()
     {
+        AudioManager manager = FindObjectOfType<AudioManager>();
+        manager.Play("TimerPause");
+
         startTimer = false;
     }
     void ChangeSession()
     {
         StopTimer();
-        if(session == 0)
+        if (session == 0)
         {
             iteration += maxLongBreakTime / 4;
         }
@@ -104,7 +110,7 @@ public class Pomodoro : MonoBehaviour
             isLongBreak = true;
         }
         else
-        {
+        {   
             session = (session + 1) % (SessionTimings.Length - 1);
         }
         SetSession();
@@ -116,9 +122,14 @@ public class Pomodoro : MonoBehaviour
         session = 0;
         iteration = 0;
         maxLongBreakTime = SessionTimings[2] * 60f;
+
+        AudioManager manager = FindObjectOfType<AudioManager>();
+        manager.Play("Complete");
     }
     void SetSession()
     {
+        AudioManager manager = FindObjectOfType<AudioManager>();
+        manager.Play("Complete");
         currentTime = SessionTimings[session] * 60f;
         maxTimeInMins = SessionTimings[session] * 60f;
     }
