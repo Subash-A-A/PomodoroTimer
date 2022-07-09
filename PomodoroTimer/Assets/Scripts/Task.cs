@@ -30,8 +30,14 @@ public class Task : MonoBehaviour
 
     public void CompleteTask()
     {
+        AudioManager manager = FindObjectOfType<AudioManager>();
+        manager.Play("TaskDone");
+
+        todoList.Tasks.Remove(TaskName.text);
         Debug.Log("Task Completed");
+        
         Destroy(gameObject);
+        todoList.SaveTodoList();
     }
 
 }

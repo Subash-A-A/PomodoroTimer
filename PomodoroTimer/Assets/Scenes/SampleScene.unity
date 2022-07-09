@@ -1000,6 +1000,11 @@ MonoBehaviour:
     pitch: 1
     volume: 1
     source: {fileID: 0}
+  - name: TaskDone
+    audioClip: {fileID: 8300000, guid: 5ce41826c41013244ba448551ed89729, type: 3}
+    pitch: 1
+    volume: 0.05
+    source: {fileID: 0}
 --- !u!1 &876428398
 GameObject:
   m_ObjectHideFlags: 0
